@@ -8555,12 +8555,27 @@ var _user$project$TixClock$update = F2(
 			ctor: '_Tuple2',
 			_0: _elm_lang$core$Native_Utils.update(
 				model,
-				{time: _p0._0}),
+				{time: _p0._0, count: model.count + 1}),
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
 var _user$project$TixClock$initialModel = {time: 0.0, count: 0};
 var _user$project$TixClock$init = {ctor: '_Tuple2', _0: _user$project$TixClock$initialModel, _1: _elm_lang$core$Platform_Cmd$none};
+var _user$project$TixClock$seconds = function (model) {
+	var totalSeconds = _elm_lang$core$Basics$truncate(
+		_elm_lang$core$Time$inSeconds(model.time));
+	return A2(_elm_lang$core$Basics$rem, totalSeconds, 60);
+};
+var _user$project$TixClock$minutes = function (model) {
+	var totalMinutes = _elm_lang$core$Basics$truncate(
+		_elm_lang$core$Time$inMinutes(model.time));
+	return A2(_elm_lang$core$Basics$rem, totalMinutes, 60);
+};
+var _user$project$TixClock$hours = function (model) {
+	var totalHours = _elm_lang$core$Basics$truncate(
+		_elm_lang$core$Time$inHours(model.time));
+	return A2(_elm_lang$core$Basics$rem, totalHours, 24);
+};
 var _user$project$TixClock$row3 = 120;
 var _user$project$TixClock$row2 = 70;
 var _user$project$TixClock$row1 = 20;
@@ -8769,9 +8784,65 @@ var _user$project$TixClock$view = function (model) {
 					{ctor: '[]'},
 					{
 						ctor: '::',
-						_0: _elm_lang$svg$Svg$text(
-							_elm_lang$core$Basics$toString(model)),
-						_1: {ctor: '[]'}
+						_0: A2(
+							_elm_lang$html$Html$span,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$svg$Svg$text(
+									_elm_lang$core$Basics$toString(
+										_user$project$TixClock$hours(model))),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$span,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: _elm_lang$svg$Svg$text(' : '),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$span,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _elm_lang$svg$Svg$text(
+											_elm_lang$core$Basics$toString(
+												_user$project$TixClock$minutes(model))),
+										_1: {ctor: '[]'}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$span,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: _elm_lang$svg$Svg$text(' : '),
+											_1: {ctor: '[]'}
+										}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$span,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: _elm_lang$svg$Svg$text(
+													_elm_lang$core$Basics$toString(
+														_user$project$TixClock$seconds(model))),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
 					}),
 				_1: {ctor: '[]'}
 			}

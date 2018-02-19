@@ -1,6 +1,6 @@
 module TixClock exposing (..)
 
-import Html exposing (Html, div)
+import Html exposing (Html, div, span)
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
 import Time exposing (Time, second)
@@ -81,10 +81,44 @@ row3 =
     120
 
 
+hours : Model -> Int
+hours model =
+    let
+        totalHours =
+            model.time
+                |> Time.inHours
+                |> truncate
+    in
+    rem totalHours 24
+
+
+minutes : Model -> Int
+minutes model =
+    let
+        totalMinutes =
+            model.time
+                |> Time.inMinutes
+                |> truncate
+    in
+    rem totalMinutes 60
+
+
+seconds : Model -> Int
+seconds model =
+    let
+        totalSeconds =
+            model.time
+                |> Time.inSeconds
+                |> truncate
+    in
+    rem totalSeconds 60
+
+
 
 -- INIT
 
 
+initialModel : Model
 initialModel =
     { time = 0.0
     , count = 0
@@ -156,9 +190,30 @@ view model =
             ]
         , div
             []
-            [ model
-                |> toString
-                |> text
+            [ span
+                []
+                [ hours model
+                    |> toString
+                    |> text
+                ]
+            , span
+                []
+                [ text " : " ]
+            , span
+                []
+                [ minutes model
+                    |> toString
+                    |> text
+                ]
+            , span
+                []
+                [ text " : " ]
+            , span
+                []
+                [ seconds model
+                    |> toString
+                    |> text
+                ]
             ]
         ]
 
@@ -187,7 +242,12 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Tick newTime ->
-            ( { model | time = newTime }, Cmd.none )
+            ( { model
+                | time = newTime
+                , count = model.count + 1
+              }
+            , Cmd.none
+            )
 
 
 
