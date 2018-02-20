@@ -279,7 +279,16 @@ update msg model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    if rem (truncate (Time.inSeconds model.time)) 6 == 0 then
+    let
+        secondsPast =
+            model.time
+                |> Time.inSeconds
+                |> truncate
+
+        doIncrement =
+            rem secondsPast 6 == 0
+    in
+    if doIncrement then
         Time.every second Increment
     else
         Time.every second Tick

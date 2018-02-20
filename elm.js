@@ -8894,13 +8894,12 @@ var _user$project$TixClock$Tick = function (a) {
 	return {ctor: 'Tick', _0: a};
 };
 var _user$project$TixClock$subscriptions = function (model) {
-	return _elm_lang$core$Native_Utils.eq(
-		A2(
-			_elm_lang$core$Basics$rem,
-			_elm_lang$core$Basics$truncate(
-				_elm_lang$core$Time$inSeconds(model.time)),
-			6),
-		0) ? A2(_elm_lang$core$Time$every, _elm_lang$core$Time$second, _user$project$TixClock$Increment) : A2(_elm_lang$core$Time$every, _elm_lang$core$Time$second, _user$project$TixClock$Tick);
+	var secondsPast = _elm_lang$core$Basics$truncate(
+		_elm_lang$core$Time$inSeconds(model.time));
+	var doIncrement = _elm_lang$core$Native_Utils.eq(
+		A2(_elm_lang$core$Basics$rem, secondsPast, 6),
+		0);
+	return doIncrement ? A2(_elm_lang$core$Time$every, _elm_lang$core$Time$second, _user$project$TixClock$Increment) : A2(_elm_lang$core$Time$every, _elm_lang$core$Time$second, _user$project$TixClock$Tick);
 };
 var _user$project$TixClock$main = _elm_lang$html$Html$program(
 	{init: _user$project$TixClock$init, view: _user$project$TixClock$view, update: _user$project$TixClock$update, subscriptions: _user$project$TixClock$subscriptions})();
