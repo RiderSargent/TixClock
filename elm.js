@@ -8575,7 +8575,14 @@ var _user$project$TixClock$toZeroPaddedString = function (minutes) {
 		'0',
 		_elm_lang$core$Basics$toString(minutes)) : _elm_lang$core$Basics$toString(minutes);
 };
-var _user$project$TixClock$initialModel = {time: 0.0, count: 0};
+var _user$project$TixClock$initialModel = {
+	time: 0.0,
+	count: 0,
+	hoursTens: A2(_elm_lang$core$List$repeat, 3, false),
+	hoursOnes: A2(_elm_lang$core$List$repeat, 9, false),
+	minutesTens: A2(_elm_lang$core$List$repeat, 6, false),
+	minutesOnes: A2(_elm_lang$core$List$repeat, 9, false)
+};
 var _user$project$TixClock$init = {ctor: '_Tuple2', _0: _user$project$TixClock$initialModel, _1: _elm_lang$core$Platform_Cmd$none};
 var _user$project$TixClock$seconds = function (model) {
 	var totalSeconds = _elm_lang$core$Basics$truncate(
@@ -8850,7 +8857,7 @@ var _user$project$TixClock$view = function (model) {
 											{
 												ctor: '::',
 												_0: _elm_lang$svg$Svg$text(
-													_elm_lang$core$Basics$toString(
+													_user$project$TixClock$toZeroPaddedString(
 														_user$project$TixClock$seconds(model))),
 												_1: {ctor: '[]'}
 											}),
@@ -8883,9 +8890,9 @@ var _user$project$TixClock$view = function (model) {
 			}
 		});
 };
-var _user$project$TixClock$Model = F2(
-	function (a, b) {
-		return {time: a, count: b};
+var _user$project$TixClock$Model = F6(
+	function (a, b, c, d, e, f) {
+		return {time: a, count: b, hoursTens: c, hoursOnes: d, minutesTens: e, minutesOnes: f};
 	});
 var _user$project$TixClock$Increment = function (a) {
 	return {ctor: 'Increment', _0: a};

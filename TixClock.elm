@@ -122,6 +122,10 @@ initialModel : Model
 initialModel =
     { time = 0.0
     , count = 0
+    , hoursTens = List.repeat 3 False
+    , hoursOnes = List.repeat 9 False
+    , minutesTens = List.repeat 6 False
+    , minutesOnes = List.repeat 9 False
     }
 
 
@@ -137,6 +141,10 @@ init =
 type alias Model =
     { time : Time
     , count : Int
+    , hoursTens : List Bool
+    , hoursOnes : List Bool
+    , minutesTens : List Bool
+    , minutesOnes : List Bool
     }
 
 
@@ -211,7 +219,7 @@ view model =
             , span
                 []
                 [ seconds model
-                    |> toString
+                    |> toZeroPaddedString
                     |> text
                 ]
             ]
