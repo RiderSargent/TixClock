@@ -1,6 +1,6 @@
 module TixClock exposing (..)
 
-import Html exposing (Html, div, span)
+import Html exposing (Html, div, pre, span)
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
 import Time exposing (Time, second)
@@ -202,7 +202,7 @@ view model =
             , span
                 []
                 [ minutes model
-                    |> toString
+                    |> toZeroPaddedString
                     |> text
                 ]
             , span
@@ -211,6 +211,15 @@ view model =
             , span
                 []
                 [ seconds model
+                    |> toString
+                    |> text
+                ]
+            ]
+        , div
+            []
+            [ pre
+                []
+                [ model
                     |> toString
                     |> text
                 ]
@@ -230,18 +239,32 @@ square xCoord yCoord color =
         []
 
 
+toZeroPaddedString : Int -> String
+toZeroPaddedString minutes =
+    if minutes < 10 then
+        "0" ++ toString minutes
+    else
+        toString minutes
+
+
 
 -- UPDATE
 
 
 type Msg
     = Tick Time
+    | Increment Time
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Tick newTime ->
+            ( { model | time = newTime }
+            , Cmd.none
+            )
+
+        Increment newTime ->
             ( { model
                 | time = newTime
                 , count = model.count + 1
@@ -256,7 +279,10 @@ update msg model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Time.every second Tick
+    if rem (truncate (Time.inSeconds model.time)) 6 == 0 then
+        Time.every second Increment
+    else
+        Time.every second Tick
 
 
 main : Program Never Model Msg

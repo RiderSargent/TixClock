@@ -8551,14 +8551,30 @@ var _elm_lang$svg$Svg_Attributes$accentHeight = _elm_lang$virtual_dom$VirtualDom
 var _user$project$TixClock$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
-		return {
-			ctor: '_Tuple2',
-			_0: _elm_lang$core$Native_Utils.update(
-				model,
-				{time: _p0._0, count: model.count + 1}),
-			_1: _elm_lang$core$Platform_Cmd$none
-		};
+		if (_p0.ctor === 'Tick') {
+			return {
+				ctor: '_Tuple2',
+				_0: _elm_lang$core$Native_Utils.update(
+					model,
+					{time: _p0._0}),
+				_1: _elm_lang$core$Platform_Cmd$none
+			};
+		} else {
+			return {
+				ctor: '_Tuple2',
+				_0: _elm_lang$core$Native_Utils.update(
+					model,
+					{time: _p0._0, count: model.count + 1}),
+				_1: _elm_lang$core$Platform_Cmd$none
+			};
+		}
 	});
+var _user$project$TixClock$toZeroPaddedString = function (minutes) {
+	return (_elm_lang$core$Native_Utils.cmp(minutes, 10) < 0) ? A2(
+		_elm_lang$core$Basics_ops['++'],
+		'0',
+		_elm_lang$core$Basics$toString(minutes)) : _elm_lang$core$Basics$toString(minutes);
+};
 var _user$project$TixClock$initialModel = {time: 0.0, count: 0};
 var _user$project$TixClock$init = {ctor: '_Tuple2', _0: _user$project$TixClock$initialModel, _1: _elm_lang$core$Platform_Cmd$none};
 var _user$project$TixClock$seconds = function (model) {
@@ -8812,7 +8828,7 @@ var _user$project$TixClock$view = function (model) {
 									{
 										ctor: '::',
 										_0: _elm_lang$svg$Svg$text(
-											_elm_lang$core$Basics$toString(
+											_user$project$TixClock$toZeroPaddedString(
 												_user$project$TixClock$minutes(model))),
 										_1: {ctor: '[]'}
 									}),
@@ -8844,7 +8860,26 @@ var _user$project$TixClock$view = function (model) {
 							}
 						}
 					}),
-				_1: {ctor: '[]'}
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$pre,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: _elm_lang$svg$Svg$text(
+										_elm_lang$core$Basics$toString(model)),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
 			}
 		});
 };
@@ -8852,11 +8887,20 @@ var _user$project$TixClock$Model = F2(
 	function (a, b) {
 		return {time: a, count: b};
 	});
+var _user$project$TixClock$Increment = function (a) {
+	return {ctor: 'Increment', _0: a};
+};
 var _user$project$TixClock$Tick = function (a) {
 	return {ctor: 'Tick', _0: a};
 };
 var _user$project$TixClock$subscriptions = function (model) {
-	return A2(_elm_lang$core$Time$every, _elm_lang$core$Time$second, _user$project$TixClock$Tick);
+	return _elm_lang$core$Native_Utils.eq(
+		A2(
+			_elm_lang$core$Basics$rem,
+			_elm_lang$core$Basics$truncate(
+				_elm_lang$core$Time$inSeconds(model.time)),
+			6),
+		0) ? A2(_elm_lang$core$Time$every, _elm_lang$core$Time$second, _user$project$TixClock$Increment) : A2(_elm_lang$core$Time$every, _elm_lang$core$Time$second, _user$project$TixClock$Tick);
 };
 var _user$project$TixClock$main = _elm_lang$html$Html$program(
 	{init: _user$project$TixClock$init, view: _user$project$TixClock$view, update: _user$project$TixClock$update, subscriptions: _user$project$TixClock$subscriptions})();
