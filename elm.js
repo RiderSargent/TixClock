@@ -8612,7 +8612,7 @@ var _user$project$TixClock$col3 = 150;
 var _user$project$TixClock$col2 = 100;
 var _user$project$TixClock$col1 = 20;
 var _user$project$TixClock$squareWidth = 40;
-var _user$project$TixClock$square = F3(
+var _user$project$TixClock$viewSquare = F3(
 	function (xCoord, yCoord, color) {
 		return A2(
 			_elm_lang$svg$Svg$rect,
@@ -8692,85 +8692,85 @@ var _user$project$TixClock$view = function (model) {
 						{ctor: '[]'}),
 					_1: {
 						ctor: '::',
-						_0: A3(_user$project$TixClock$square, _user$project$TixClock$col1, _user$project$TixClock$row1, 'grey'),
+						_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col1, _user$project$TixClock$row1, 'grey'),
 						_1: {
 							ctor: '::',
-							_0: A3(_user$project$TixClock$square, _user$project$TixClock$col1, _user$project$TixClock$row2, 'grey'),
+							_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col1, _user$project$TixClock$row2, 'grey'),
 							_1: {
 								ctor: '::',
-								_0: A3(_user$project$TixClock$square, _user$project$TixClock$col1, _user$project$TixClock$row3, 'grey'),
+								_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col1, _user$project$TixClock$row3, 'grey'),
 								_1: {
 									ctor: '::',
-									_0: A3(_user$project$TixClock$square, _user$project$TixClock$col2, _user$project$TixClock$row1, 'grey'),
+									_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col2, _user$project$TixClock$row1, 'grey'),
 									_1: {
 										ctor: '::',
-										_0: A3(_user$project$TixClock$square, _user$project$TixClock$col2, _user$project$TixClock$row2, 'grey'),
+										_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col2, _user$project$TixClock$row2, 'grey'),
 										_1: {
 											ctor: '::',
-											_0: A3(_user$project$TixClock$square, _user$project$TixClock$col2, _user$project$TixClock$row3, 'grey'),
+											_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col2, _user$project$TixClock$row3, 'grey'),
 											_1: {
 												ctor: '::',
-												_0: A3(_user$project$TixClock$square, _user$project$TixClock$col3, _user$project$TixClock$row1, 'grey'),
+												_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col3, _user$project$TixClock$row1, 'grey'),
 												_1: {
 													ctor: '::',
-													_0: A3(_user$project$TixClock$square, _user$project$TixClock$col3, _user$project$TixClock$row2, 'grey'),
+													_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col3, _user$project$TixClock$row2, 'grey'),
 													_1: {
 														ctor: '::',
-														_0: A3(_user$project$TixClock$square, _user$project$TixClock$col3, _user$project$TixClock$row3, 'grey'),
+														_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col3, _user$project$TixClock$row3, 'grey'),
 														_1: {
 															ctor: '::',
-															_0: A3(_user$project$TixClock$square, _user$project$TixClock$col4, _user$project$TixClock$row1, 'grey'),
+															_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col4, _user$project$TixClock$row1, 'grey'),
 															_1: {
 																ctor: '::',
-																_0: A3(_user$project$TixClock$square, _user$project$TixClock$col4, _user$project$TixClock$row2, 'grey'),
+																_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col4, _user$project$TixClock$row2, 'grey'),
 																_1: {
 																	ctor: '::',
-																	_0: A3(_user$project$TixClock$square, _user$project$TixClock$col4, _user$project$TixClock$row3, 'grey'),
+																	_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col4, _user$project$TixClock$row3, 'grey'),
 																	_1: {
 																		ctor: '::',
-																		_0: A3(_user$project$TixClock$square, _user$project$TixClock$col5, _user$project$TixClock$row1, 'grey'),
+																		_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col5, _user$project$TixClock$row1, 'grey'),
 																		_1: {
 																			ctor: '::',
-																			_0: A3(_user$project$TixClock$square, _user$project$TixClock$col5, _user$project$TixClock$row2, 'grey'),
+																			_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col5, _user$project$TixClock$row2, 'grey'),
 																			_1: {
 																				ctor: '::',
-																				_0: A3(_user$project$TixClock$square, _user$project$TixClock$col5, _user$project$TixClock$row3, 'grey'),
+																				_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col5, _user$project$TixClock$row3, 'grey'),
 																				_1: {
 																					ctor: '::',
-																					_0: A3(_user$project$TixClock$square, _user$project$TixClock$col6, _user$project$TixClock$row1, 'grey'),
+																					_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col6, _user$project$TixClock$row1, 'grey'),
 																					_1: {
 																						ctor: '::',
-																						_0: A3(_user$project$TixClock$square, _user$project$TixClock$col6, _user$project$TixClock$row2, 'grey'),
+																						_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col6, _user$project$TixClock$row2, 'grey'),
 																						_1: {
 																							ctor: '::',
-																							_0: A3(_user$project$TixClock$square, _user$project$TixClock$col6, _user$project$TixClock$row3, 'grey'),
+																							_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col6, _user$project$TixClock$row3, 'grey'),
 																							_1: {
 																								ctor: '::',
-																								_0: A3(_user$project$TixClock$square, _user$project$TixClock$col7, _user$project$TixClock$row1, 'grey'),
+																								_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col7, _user$project$TixClock$row1, 'grey'),
 																								_1: {
 																									ctor: '::',
-																									_0: A3(_user$project$TixClock$square, _user$project$TixClock$col7, _user$project$TixClock$row2, 'grey'),
+																									_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col7, _user$project$TixClock$row2, 'grey'),
 																									_1: {
 																										ctor: '::',
-																										_0: A3(_user$project$TixClock$square, _user$project$TixClock$col7, _user$project$TixClock$row3, 'grey'),
+																										_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col7, _user$project$TixClock$row3, 'grey'),
 																										_1: {
 																											ctor: '::',
-																											_0: A3(_user$project$TixClock$square, _user$project$TixClock$col8, _user$project$TixClock$row1, 'grey'),
+																											_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col8, _user$project$TixClock$row1, 'grey'),
 																											_1: {
 																												ctor: '::',
-																												_0: A3(_user$project$TixClock$square, _user$project$TixClock$col8, _user$project$TixClock$row2, 'grey'),
+																												_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col8, _user$project$TixClock$row2, 'grey'),
 																												_1: {
 																													ctor: '::',
-																													_0: A3(_user$project$TixClock$square, _user$project$TixClock$col8, _user$project$TixClock$row3, 'grey'),
+																													_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col8, _user$project$TixClock$row3, 'grey'),
 																													_1: {
 																														ctor: '::',
-																														_0: A3(_user$project$TixClock$square, _user$project$TixClock$col9, _user$project$TixClock$row1, 'grey'),
+																														_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col9, _user$project$TixClock$row1, 'grey'),
 																														_1: {
 																															ctor: '::',
-																															_0: A3(_user$project$TixClock$square, _user$project$TixClock$col9, _user$project$TixClock$row2, 'grey'),
+																															_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col9, _user$project$TixClock$row2, 'grey'),
 																															_1: {
 																																ctor: '::',
-																																_0: A3(_user$project$TixClock$square, _user$project$TixClock$col9, _user$project$TixClock$row3, 'grey'),
+																																_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col9, _user$project$TixClock$row3, 'grey'),
 																																_1: {ctor: '[]'}
 																															}
 																														}

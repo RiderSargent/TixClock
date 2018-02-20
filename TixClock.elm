@@ -168,33 +168,33 @@ view model =
                 , fill "black"
                 ]
                 []
-            , square col1 row1 "grey"
-            , square col1 row2 "grey"
-            , square col1 row3 "grey"
-            , square col2 row1 "grey"
-            , square col2 row2 "grey"
-            , square col2 row3 "grey"
-            , square col3 row1 "grey"
-            , square col3 row2 "grey"
-            , square col3 row3 "grey"
-            , square col4 row1 "grey"
-            , square col4 row2 "grey"
-            , square col4 row3 "grey"
-            , square col5 row1 "grey"
-            , square col5 row2 "grey"
-            , square col5 row3 "grey"
-            , square col6 row1 "grey"
-            , square col6 row2 "grey"
-            , square col6 row3 "grey"
-            , square col7 row1 "grey"
-            , square col7 row2 "grey"
-            , square col7 row3 "grey"
-            , square col8 row1 "grey"
-            , square col8 row2 "grey"
-            , square col8 row3 "grey"
-            , square col9 row1 "grey"
-            , square col9 row2 "grey"
-            , square col9 row3 "grey"
+            , viewSquare col1 row1 "grey"
+            , viewSquare col1 row2 "grey"
+            , viewSquare col1 row3 "grey"
+            , viewSquare col2 row1 "grey"
+            , viewSquare col2 row2 "grey"
+            , viewSquare col2 row3 "grey"
+            , viewSquare col3 row1 "grey"
+            , viewSquare col3 row2 "grey"
+            , viewSquare col3 row3 "grey"
+            , viewSquare col4 row1 "grey"
+            , viewSquare col4 row2 "grey"
+            , viewSquare col4 row3 "grey"
+            , viewSquare col5 row1 "grey"
+            , viewSquare col5 row2 "grey"
+            , viewSquare col5 row3 "grey"
+            , viewSquare col6 row1 "grey"
+            , viewSquare col6 row2 "grey"
+            , viewSquare col6 row3 "grey"
+            , viewSquare col7 row1 "grey"
+            , viewSquare col7 row2 "grey"
+            , viewSquare col7 row3 "grey"
+            , viewSquare col8 row1 "grey"
+            , viewSquare col8 row2 "grey"
+            , viewSquare col8 row3 "grey"
+            , viewSquare col9 row1 "grey"
+            , viewSquare col9 row2 "grey"
+            , viewSquare col9 row3 "grey"
             ]
         , div
             []
@@ -235,8 +235,8 @@ view model =
         ]
 
 
-square : Int -> Int -> String -> Svg msg
-square xCoord yCoord color =
+viewSquare : Int -> Int -> String -> Svg msg
+viewSquare xCoord yCoord color =
     rect
         [ x (toString xCoord)
         , y (toString yCoord)
