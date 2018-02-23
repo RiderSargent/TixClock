@@ -8569,20 +8569,47 @@ var _user$project$TixClock$update = F2(
 			};
 		}
 	});
-var _user$project$TixClock$toZeroPaddedString = function (minutes) {
-	return (_elm_lang$core$Native_Utils.cmp(minutes, 10) < 0) ? A2(
+var _user$project$TixClock$viewDebug = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$pre,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$svg$Svg$text(
+						_elm_lang$core$Basics$toString(model)),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$TixClock$toZeroPaddedString = function (num) {
+	return (_elm_lang$core$Native_Utils.cmp(num, 10) < 0) ? A2(
 		_elm_lang$core$Basics_ops['++'],
 		'0',
-		_elm_lang$core$Basics$toString(minutes)) : _elm_lang$core$Basics$toString(minutes);
+		_elm_lang$core$Basics$toString(num)) : _elm_lang$core$Basics$toString(num);
 };
-var _user$project$TixClock$initialModel = {
-	time: 0.0,
-	count: 0,
-	hoursTens: A2(_elm_lang$core$List$repeat, 3, false),
-	hoursOnes: A2(_elm_lang$core$List$repeat, 9, false),
-	minutesTens: A2(_elm_lang$core$List$repeat, 6, false),
-	minutesOnes: A2(_elm_lang$core$List$repeat, 9, false)
+var _user$project$TixClock$fillColor = function (isOn) {
+	return isOn ? '#ccc' : '#888';
 };
+var _user$project$TixClock$zip = F3(
+	function (cols, rows, active) {
+		var _p1 = {ctor: '_Tuple3', _0: cols, _1: rows, _2: active};
+		if (((_p1._0.ctor === '::') && (_p1._1.ctor === '::')) && (_p1._2.ctor === '::')) {
+			return {
+				ctor: '::',
+				_0: {ctor: '_Tuple3', _0: _p1._0._0, _1: _p1._1._0, _2: _p1._2._0},
+				_1: A3(_user$project$TixClock$zip, _p1._0._1, _p1._1._1, _p1._2._1)
+			};
+		} else {
+			return {ctor: '[]'};
+		}
+	});
+var _user$project$TixClock$initialModel = {time: 0.0, count: 0};
 var _user$project$TixClock$init = {ctor: '_Tuple2', _0: _user$project$TixClock$initialModel, _1: _elm_lang$core$Platform_Cmd$none};
 var _user$project$TixClock$seconds = function (model) {
 	var totalSeconds = _elm_lang$core$Basics$truncate(
@@ -8599,222 +8626,52 @@ var _user$project$TixClock$hours = function (model) {
 		_elm_lang$core$Time$inHours(model.time));
 	return A2(_elm_lang$core$Basics$rem, totalHours, 24);
 };
-var _user$project$TixClock$row3 = 120;
-var _user$project$TixClock$row2 = 70;
-var _user$project$TixClock$row1 = 20;
-var _user$project$TixClock$col9 = 510;
-var _user$project$TixClock$col8 = 460;
-var _user$project$TixClock$col7 = 410;
-var _user$project$TixClock$col6 = 330;
-var _user$project$TixClock$col5 = 280;
-var _user$project$TixClock$col4 = 200;
-var _user$project$TixClock$col3 = 150;
-var _user$project$TixClock$col2 = 100;
-var _user$project$TixClock$col1 = 20;
-var _user$project$TixClock$squareWidth = 40;
-var _user$project$TixClock$viewSquare = F3(
-	function (xCoord, yCoord, color) {
-		return A2(
-			_elm_lang$svg$Svg$rect,
-			{
-				ctor: '::',
-				_0: _elm_lang$svg$Svg_Attributes$x(
-					_elm_lang$core$Basics$toString(xCoord)),
-				_1: {
-					ctor: '::',
-					_0: _elm_lang$svg$Svg_Attributes$y(
-						_elm_lang$core$Basics$toString(yCoord)),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$svg$Svg_Attributes$width(
-							_elm_lang$core$Basics$toString(_user$project$TixClock$squareWidth)),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$svg$Svg_Attributes$height(
-								_elm_lang$core$Basics$toString(_user$project$TixClock$squareWidth)),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$svg$Svg_Attributes$fill(color),
-								_1: {ctor: '[]'}
-							}
-						}
-					}
-				}
-			},
-			{ctor: '[]'});
-	});
-var _user$project$TixClock$clockWidth = 570;
-var _user$project$TixClock$clockHeight = 180;
-var _user$project$TixClock$view = function (model) {
+var _user$project$TixClock$viewTime = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$svg$Svg$svg,
+				_elm_lang$html$Html$span,
+				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$svg$Svg_Attributes$version('1.1'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$svg$Svg_Attributes$baseProfile('full'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$svg$Svg_Attributes$width(
-								_elm_lang$core$Basics$toString(_user$project$TixClock$clockWidth)),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$svg$Svg_Attributes$height(
-									_elm_lang$core$Basics$toString(_user$project$TixClock$clockHeight)),
-								_1: {ctor: '[]'}
-							}
-						}
-					}
-				},
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$svg$Svg$rect,
-						{
-							ctor: '::',
-							_0: _elm_lang$svg$Svg_Attributes$width('100%'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$svg$Svg_Attributes$height('100%'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$svg$Svg_Attributes$fill('black'),
-									_1: {ctor: '[]'}
-								}
-							}
-						},
-						{ctor: '[]'}),
-					_1: {
-						ctor: '::',
-						_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col1, _user$project$TixClock$row1, 'grey'),
-						_1: {
-							ctor: '::',
-							_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col1, _user$project$TixClock$row2, 'grey'),
-							_1: {
-								ctor: '::',
-								_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col1, _user$project$TixClock$row3, 'grey'),
-								_1: {
-									ctor: '::',
-									_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col2, _user$project$TixClock$row1, 'grey'),
-									_1: {
-										ctor: '::',
-										_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col2, _user$project$TixClock$row2, 'grey'),
-										_1: {
-											ctor: '::',
-											_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col2, _user$project$TixClock$row3, 'grey'),
-											_1: {
-												ctor: '::',
-												_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col3, _user$project$TixClock$row1, 'grey'),
-												_1: {
-													ctor: '::',
-													_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col3, _user$project$TixClock$row2, 'grey'),
-													_1: {
-														ctor: '::',
-														_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col3, _user$project$TixClock$row3, 'grey'),
-														_1: {
-															ctor: '::',
-															_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col4, _user$project$TixClock$row1, 'grey'),
-															_1: {
-																ctor: '::',
-																_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col4, _user$project$TixClock$row2, 'grey'),
-																_1: {
-																	ctor: '::',
-																	_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col4, _user$project$TixClock$row3, 'grey'),
-																	_1: {
-																		ctor: '::',
-																		_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col5, _user$project$TixClock$row1, 'grey'),
-																		_1: {
-																			ctor: '::',
-																			_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col5, _user$project$TixClock$row2, 'grey'),
-																			_1: {
-																				ctor: '::',
-																				_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col5, _user$project$TixClock$row3, 'grey'),
-																				_1: {
-																					ctor: '::',
-																					_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col6, _user$project$TixClock$row1, 'grey'),
-																					_1: {
-																						ctor: '::',
-																						_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col6, _user$project$TixClock$row2, 'grey'),
-																						_1: {
-																							ctor: '::',
-																							_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col6, _user$project$TixClock$row3, 'grey'),
-																							_1: {
-																								ctor: '::',
-																								_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col7, _user$project$TixClock$row1, 'grey'),
-																								_1: {
-																									ctor: '::',
-																									_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col7, _user$project$TixClock$row2, 'grey'),
-																									_1: {
-																										ctor: '::',
-																										_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col7, _user$project$TixClock$row3, 'grey'),
-																										_1: {
-																											ctor: '::',
-																											_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col8, _user$project$TixClock$row1, 'grey'),
-																											_1: {
-																												ctor: '::',
-																												_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col8, _user$project$TixClock$row2, 'grey'),
-																												_1: {
-																													ctor: '::',
-																													_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col8, _user$project$TixClock$row3, 'grey'),
-																													_1: {
-																														ctor: '::',
-																														_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col9, _user$project$TixClock$row1, 'grey'),
-																														_1: {
-																															ctor: '::',
-																															_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col9, _user$project$TixClock$row2, 'grey'),
-																															_1: {
-																																ctor: '::',
-																																_0: A3(_user$project$TixClock$viewSquare, _user$project$TixClock$col9, _user$project$TixClock$row3, 'grey'),
-																																_1: {ctor: '[]'}
-																															}
-																														}
-																													}
-																												}
-																											}
-																										}
-																									}
-																								}
-																							}
-																						}
-																					}
-																				}
-																			}
-																		}
-																	}
-																}
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
+					_0: _elm_lang$svg$Svg$text(
+						_user$project$TixClock$toZeroPaddedString(
+							_user$project$TixClock$hours(model))),
+					_1: {ctor: '[]'}
 				}),
 			_1: {
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$div,
+					_elm_lang$html$Html$span,
 					{ctor: '[]'},
 					{
+						ctor: '::',
+						_0: _elm_lang$svg$Svg$text(' : '),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$span,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$svg$Svg$text(
+								_user$project$TixClock$toZeroPaddedString(
+									_user$project$TixClock$minutes(model))),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
 						ctor: '::',
 						_0: A2(
 							_elm_lang$html$Html$span,
 							{ctor: '[]'},
 							{
 								ctor: '::',
-								_0: _elm_lang$svg$Svg$text(
-									_elm_lang$core$Basics$toString(
-										_user$project$TixClock$hours(model))),
+								_0: _elm_lang$svg$Svg$text(' : '),
 								_1: {ctor: '[]'}
 							}),
 						_1: {
@@ -8824,75 +8681,505 @@ var _user$project$TixClock$view = function (model) {
 								{ctor: '[]'},
 								{
 									ctor: '::',
-									_0: _elm_lang$svg$Svg$text(' : '),
+									_0: _elm_lang$svg$Svg$text(
+										_user$project$TixClock$toZeroPaddedString(
+											_user$project$TixClock$seconds(model))),
 									_1: {ctor: '[]'}
 								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				}
+			}
+		});
+};
+var _user$project$TixClock$squareWidth = 40;
+var _user$project$TixClock$viewSquare = function (square) {
+	return A2(
+		_elm_lang$svg$Svg$rect,
+		{
+			ctor: '::',
+			_0: _elm_lang$svg$Svg_Attributes$x(
+				_elm_lang$core$Basics$toString(square.x)),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$svg$Svg_Attributes$y(
+					_elm_lang$core$Basics$toString(square.y)),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$svg$Svg_Attributes$width(
+						_elm_lang$core$Basics$toString(_user$project$TixClock$squareWidth)),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$svg$Svg_Attributes$height(
+							_elm_lang$core$Basics$toString(_user$project$TixClock$squareWidth)),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$svg$Svg_Attributes$fill(
+								_user$project$TixClock$fillColor(square.active)),
+							_1: {ctor: '[]'}
+						}
+					}
+				}
+			}
+		},
+		{ctor: '[]'});
+};
+var _user$project$TixClock$clockWidth = 570;
+var _user$project$TixClock$clockHeight = 180;
+var _user$project$TixClock$viewClock = function (squares) {
+	return A2(
+		_elm_lang$svg$Svg$svg,
+		{
+			ctor: '::',
+			_0: _elm_lang$svg$Svg_Attributes$version('1.1'),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$svg$Svg_Attributes$baseProfile('full'),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$svg$Svg_Attributes$width(
+						_elm_lang$core$Basics$toString(_user$project$TixClock$clockWidth)),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$svg$Svg_Attributes$height(
+							_elm_lang$core$Basics$toString(_user$project$TixClock$clockHeight)),
+						_1: {ctor: '[]'}
+					}
+				}
+			}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$svg$Svg$rect,
+				{
+					ctor: '::',
+					_0: _elm_lang$svg$Svg_Attributes$width('100%'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$svg$Svg_Attributes$height('100%'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$svg$Svg_Attributes$fill('#444'),
+							_1: {ctor: '[]'}
+						}
+					}
+				},
+				{ctor: '[]'}),
+			_1: A2(_elm_lang$core$List$map, _user$project$TixClock$viewSquare, squares)
+		});
+};
+var _user$project$TixClock$Square = F3(
+	function (a, b, c) {
+		return {x: a, y: b, active: c};
+	});
+var _user$project$TixClock$tupleToSquare = function (_p2) {
+	var _p3 = _p2;
+	return A3(_user$project$TixClock$Square, _p3._0, _p3._1, _p3._2);
+};
+var _user$project$TixClock$hoursTensColumn = function (model) {
+	var active = {
+		ctor: '::',
+		_0: false,
+		_1: {
+			ctor: '::',
+			_0: true,
+			_1: {
+				ctor: '::',
+				_0: false,
+				_1: {ctor: '[]'}
+			}
+		}
+	};
+	var rows = {
+		ctor: '::',
+		_0: 20,
+		_1: {
+			ctor: '::',
+			_0: 70,
+			_1: {
+				ctor: '::',
+				_0: 120,
+				_1: {ctor: '[]'}
+			}
+		}
+	};
+	var cols = {
+		ctor: '::',
+		_0: 20,
+		_1: {
+			ctor: '::',
+			_0: 20,
+			_1: {
+				ctor: '::',
+				_0: 20,
+				_1: {ctor: '[]'}
+			}
+		}
+	};
+	return A2(
+		_elm_lang$core$List$map,
+		_user$project$TixClock$tupleToSquare,
+		A3(_user$project$TixClock$zip, cols, rows, active));
+};
+var _user$project$TixClock$hoursOnesColumn = function (model) {
+	var active = {
+		ctor: '::',
+		_0: false,
+		_1: {
+			ctor: '::',
+			_0: true,
+			_1: {
+				ctor: '::',
+				_0: true,
+				_1: {
+					ctor: '::',
+					_0: false,
+					_1: {
+						ctor: '::',
+						_0: true,
+						_1: {
+							ctor: '::',
+							_0: false,
 							_1: {
 								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$span,
-									{ctor: '[]'},
-									{
-										ctor: '::',
-										_0: _elm_lang$svg$Svg$text(
-											_user$project$TixClock$toZeroPaddedString(
-												_user$project$TixClock$minutes(model))),
-										_1: {ctor: '[]'}
-									}),
+								_0: false,
 								_1: {
 									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$span,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: _elm_lang$svg$Svg$text(' : '),
-											_1: {ctor: '[]'}
-										}),
+									_0: true,
 									_1: {
 										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$span,
-											{ctor: '[]'},
-											{
-												ctor: '::',
-												_0: _elm_lang$svg$Svg$text(
-													_user$project$TixClock$toZeroPaddedString(
-														_user$project$TixClock$seconds(model))),
-												_1: {ctor: '[]'}
-											}),
+										_0: false,
 										_1: {ctor: '[]'}
 									}
 								}
 							}
 						}
-					}),
+					}
+				}
+			}
+		}
+	};
+	var rows = {
+		ctor: '::',
+		_0: 20,
+		_1: {
+			ctor: '::',
+			_0: 70,
+			_1: {
+				ctor: '::',
+				_0: 120,
 				_1: {
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$div,
-						{ctor: '[]'},
-						{
+					_0: 20,
+					_1: {
+						ctor: '::',
+						_0: 70,
+						_1: {
 							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$pre,
-								{ctor: '[]'},
-								{
+							_0: 120,
+							_1: {
+								ctor: '::',
+								_0: 20,
+								_1: {
 									ctor: '::',
-									_0: _elm_lang$svg$Svg$text(
-										_elm_lang$core$Basics$toString(model)),
-									_1: {ctor: '[]'}
-								}),
+									_0: 70,
+									_1: {
+										ctor: '::',
+										_0: 120,
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	};
+	var cols = {
+		ctor: '::',
+		_0: 100,
+		_1: {
+			ctor: '::',
+			_0: 100,
+			_1: {
+				ctor: '::',
+				_0: 100,
+				_1: {
+					ctor: '::',
+					_0: 150,
+					_1: {
+						ctor: '::',
+						_0: 150,
+						_1: {
+							ctor: '::',
+							_0: 150,
+							_1: {
+								ctor: '::',
+								_0: 200,
+								_1: {
+									ctor: '::',
+									_0: 200,
+									_1: {
+										ctor: '::',
+										_0: 200,
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	};
+	return A2(
+		_elm_lang$core$List$map,
+		_user$project$TixClock$tupleToSquare,
+		A3(_user$project$TixClock$zip, cols, rows, active));
+};
+var _user$project$TixClock$minutesTensColumn = function (model) {
+	var active = {
+		ctor: '::',
+		_0: false,
+		_1: {
+			ctor: '::',
+			_0: false,
+			_1: {
+				ctor: '::',
+				_0: false,
+				_1: {
+					ctor: '::',
+					_0: true,
+					_1: {
+						ctor: '::',
+						_0: false,
+						_1: {
+							ctor: '::',
+							_0: false,
 							_1: {ctor: '[]'}
-						}),
+						}
+					}
+				}
+			}
+		}
+	};
+	var rows = {
+		ctor: '::',
+		_0: 20,
+		_1: {
+			ctor: '::',
+			_0: 70,
+			_1: {
+				ctor: '::',
+				_0: 120,
+				_1: {
+					ctor: '::',
+					_0: 20,
+					_1: {
+						ctor: '::',
+						_0: 70,
+						_1: {
+							ctor: '::',
+							_0: 120,
+							_1: {ctor: '[]'}
+						}
+					}
+				}
+			}
+		}
+	};
+	var cols = {
+		ctor: '::',
+		_0: 280,
+		_1: {
+			ctor: '::',
+			_0: 280,
+			_1: {
+				ctor: '::',
+				_0: 280,
+				_1: {
+					ctor: '::',
+					_0: 330,
+					_1: {
+						ctor: '::',
+						_0: 330,
+						_1: {
+							ctor: '::',
+							_0: 330,
+							_1: {ctor: '[]'}
+						}
+					}
+				}
+			}
+		}
+	};
+	return A2(
+		_elm_lang$core$List$map,
+		_user$project$TixClock$tupleToSquare,
+		A3(_user$project$TixClock$zip, cols, rows, active));
+};
+var _user$project$TixClock$minutesOnesColumn = function (model) {
+	var active = {
+		ctor: '::',
+		_0: false,
+		_1: {
+			ctor: '::',
+			_0: true,
+			_1: {
+				ctor: '::',
+				_0: false,
+				_1: {
+					ctor: '::',
+					_0: true,
+					_1: {
+						ctor: '::',
+						_0: false,
+						_1: {
+							ctor: '::',
+							_0: true,
+							_1: {
+								ctor: '::',
+								_0: false,
+								_1: {
+									ctor: '::',
+									_0: true,
+									_1: {
+										ctor: '::',
+										_0: false,
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	};
+	var rows = {
+		ctor: '::',
+		_0: 20,
+		_1: {
+			ctor: '::',
+			_0: 70,
+			_1: {
+				ctor: '::',
+				_0: 120,
+				_1: {
+					ctor: '::',
+					_0: 20,
+					_1: {
+						ctor: '::',
+						_0: 70,
+						_1: {
+							ctor: '::',
+							_0: 120,
+							_1: {
+								ctor: '::',
+								_0: 20,
+								_1: {
+									ctor: '::',
+									_0: 70,
+									_1: {
+										ctor: '::',
+										_0: 120,
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	};
+	var cols = {
+		ctor: '::',
+		_0: 410,
+		_1: {
+			ctor: '::',
+			_0: 410,
+			_1: {
+				ctor: '::',
+				_0: 410,
+				_1: {
+					ctor: '::',
+					_0: 460,
+					_1: {
+						ctor: '::',
+						_0: 460,
+						_1: {
+							ctor: '::',
+							_0: 460,
+							_1: {
+								ctor: '::',
+								_0: 510,
+								_1: {
+									ctor: '::',
+									_0: 510,
+									_1: {
+										ctor: '::',
+										_0: 510,
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	};
+	return A2(
+		_elm_lang$core$List$map,
+		_user$project$TixClock$tupleToSquare,
+		A3(_user$project$TixClock$zip, cols, rows, active));
+};
+var _user$project$TixClock$elements = function (model) {
+	return _elm_lang$core$List$concat(
+		{
+			ctor: '::',
+			_0: _user$project$TixClock$hoursTensColumn(model),
+			_1: {
+				ctor: '::',
+				_0: _user$project$TixClock$hoursOnesColumn(model),
+				_1: {
+					ctor: '::',
+					_0: _user$project$TixClock$minutesTensColumn(model),
+					_1: {
+						ctor: '::',
+						_0: _user$project$TixClock$minutesOnesColumn(model),
+						_1: {ctor: '[]'}
+					}
+				}
+			}
+		});
+};
+var _user$project$TixClock$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _user$project$TixClock$viewClock(
+				_user$project$TixClock$elements(model)),
+			_1: {
+				ctor: '::',
+				_0: _user$project$TixClock$viewTime(model),
+				_1: {
+					ctor: '::',
+					_0: _user$project$TixClock$viewDebug(model),
 					_1: {ctor: '[]'}
 				}
 			}
 		});
 };
-var _user$project$TixClock$Model = F6(
-	function (a, b, c, d, e, f) {
-		return {time: a, count: b, hoursTens: c, hoursOnes: d, minutesTens: e, minutesOnes: f};
+var _user$project$TixClock$Model = F2(
+	function (a, b) {
+		return {time: a, count: b};
 	});
 var _user$project$TixClock$Increment = function (a) {
 	return {ctor: 'Increment', _0: a};

@@ -21,66 +21,6 @@ squareWidth =
     40
 
 
-col1 : Int
-col1 =
-    20
-
-
-col2 : Int
-col2 =
-    100
-
-
-col3 : Int
-col3 =
-    150
-
-
-col4 : Int
-col4 =
-    200
-
-
-col5 : Int
-col5 =
-    280
-
-
-col6 : Int
-col6 =
-    330
-
-
-col7 : Int
-col7 =
-    410
-
-
-col8 : Int
-col8 =
-    460
-
-
-col9 : Int
-col9 =
-    510
-
-
-row1 : Int
-row1 =
-    20
-
-
-row2 : Int
-row2 =
-    70
-
-
-row3 : Int
-row3 =
-    120
-
-
 hours : Model -> Int
 hours model =
     let
@@ -122,16 +62,19 @@ initialModel : Model
 initialModel =
     { time = 0.0
     , count = 0
-    , hoursTens = List.repeat 3 False
-    , hoursOnes = List.repeat 9 False
-    , minutesTens = List.repeat 6 False
-    , minutesOnes = List.repeat 9 False
     }
 
 
 init : ( Model, Cmd Msg )
 init =
     ( initialModel, Cmd.none )
+
+
+type alias Square =
+    { x : Int
+    , y : Int
+    , active : Bool
+    }
 
 
 
@@ -141,10 +84,6 @@ init =
 type alias Model =
     { time : Time
     , count : Int
-    , hoursTens : List Bool
-    , hoursOnes : List Bool
-    , minutesTens : List Bool
-    , minutesOnes : List Bool
     }
 
 
@@ -156,103 +95,158 @@ view : Model -> Html msg
 view model =
     div
         []
-        [ svg
-            [ version "1.1"
-            , baseProfile "full"
-            , width (toString clockWidth)
-            , height (toString clockHeight)
-            ]
-            [ rect
-                [ width "100%"
-                , height "100%"
-                , fill "black"
-                ]
-                []
-            , viewSquare col1 row1 "grey"
-            , viewSquare col1 row2 "grey"
-            , viewSquare col1 row3 "grey"
-            , viewSquare col2 row1 "grey"
-            , viewSquare col2 row2 "grey"
-            , viewSquare col2 row3 "grey"
-            , viewSquare col3 row1 "grey"
-            , viewSquare col3 row2 "grey"
-            , viewSquare col3 row3 "grey"
-            , viewSquare col4 row1 "grey"
-            , viewSquare col4 row2 "grey"
-            , viewSquare col4 row3 "grey"
-            , viewSquare col5 row1 "grey"
-            , viewSquare col5 row2 "grey"
-            , viewSquare col5 row3 "grey"
-            , viewSquare col6 row1 "grey"
-            , viewSquare col6 row2 "grey"
-            , viewSquare col6 row3 "grey"
-            , viewSquare col7 row1 "grey"
-            , viewSquare col7 row2 "grey"
-            , viewSquare col7 row3 "grey"
-            , viewSquare col8 row1 "grey"
-            , viewSquare col8 row2 "grey"
-            , viewSquare col8 row3 "grey"
-            , viewSquare col9 row1 "grey"
-            , viewSquare col9 row2 "grey"
-            , viewSquare col9 row3 "grey"
-            ]
-        , div
-            []
-            [ span
-                []
-                [ hours model
-                    |> toString
-                    |> text
-                ]
-            , span
-                []
-                [ text " : " ]
-            , span
-                []
-                [ minutes model
-                    |> toZeroPaddedString
-                    |> text
-                ]
-            , span
-                []
-                [ text " : " ]
-            , span
-                []
-                [ seconds model
-                    |> toZeroPaddedString
-                    |> text
-                ]
-            ]
-        , div
-            []
-            [ pre
-                []
-                [ model
-                    |> toString
-                    |> text
-                ]
-            ]
+        [ viewClock <| elements <| model
+        , viewTime model
+        , viewDebug model
         ]
 
 
-viewSquare : Int -> Int -> String -> Svg msg
-viewSquare xCoord yCoord color =
+hoursTensColumn : Model -> List Square
+hoursTensColumn model =
+    let
+        cols =
+            [ 20, 20, 20 ]
+
+        rows =
+            [ 20, 70, 120 ]
+
+        active =
+            [ False, True, False ]
+    in
+    List.map tupleToSquare <| zip cols rows active
+
+
+hoursOnesColumn : Model -> List Square
+hoursOnesColumn model =
+    let
+        cols =
+            [ 100, 100, 100, 150, 150, 150, 200, 200, 200 ]
+
+        rows =
+            [ 20, 70, 120, 20, 70, 120, 20, 70, 120 ]
+
+        active =
+            [ False, True, True, False, True, False, False, True, False ]
+    in
+    List.map tupleToSquare <| zip cols rows active
+
+
+minutesTensColumn : Model -> List Square
+minutesTensColumn model =
+    let
+        cols =
+            [ 280, 280, 280, 330, 330, 330 ]
+
+        rows =
+            [ 20, 70, 120, 20, 70, 120 ]
+
+        active =
+            [ False, False, False, True, False, False ]
+    in
+    List.map tupleToSquare <| zip cols rows active
+
+
+minutesOnesColumn : Model -> List Square
+minutesOnesColumn model =
+    let
+        cols =
+            [ 410, 410, 410, 460, 460, 460, 510, 510, 510 ]
+
+        rows =
+            [ 20, 70, 120, 20, 70, 120, 20, 70, 120 ]
+
+        active =
+            [ False, True, False, True, False, True, False, True, False ]
+    in
+    List.map tupleToSquare <| zip cols rows active
+
+
+zip : List Int -> List Int -> List Bool -> List ( Int, Int, Bool )
+zip cols rows active =
+    case ( cols, rows, active ) of
+        ( c :: cTail, r :: rTail, a :: aTail ) ->
+            ( c, r, a ) :: zip cTail rTail aTail
+
+        ( _, _, _ ) ->
+            []
+
+
+tupleToSquare : ( Int, Int, Bool ) -> Square
+tupleToSquare ( col, row, active ) =
+    Square col row active
+
+
+elements : Model -> List Square
+elements model =
+    List.concat
+        [ hoursTensColumn model
+        , hoursOnesColumn model
+        , minutesTensColumn model
+        , minutesOnesColumn model
+        ]
+
+
+viewClock : List Square -> Svg msg
+viewClock squares =
+    svg
+        [ version "1.1"
+        , baseProfile "full"
+        , width (toString clockWidth)
+        , height (toString clockHeight)
+        ]
+        (rect [ width "100%", height "100%", fill "#444" ] []
+            :: List.map viewSquare squares
+        )
+
+
+viewSquare : Square -> Svg msg
+viewSquare square =
     rect
-        [ x (toString xCoord)
-        , y (toString yCoord)
+        [ x (toString square.x)
+        , y (toString square.y)
         , width (toString squareWidth)
         , height (toString squareWidth)
-        , fill color
+        , fill <| fillColor <| square.active
         ]
         []
 
 
-toZeroPaddedString : Int -> String
-toZeroPaddedString minutes =
-    if minutes < 10 then
-        "0" ++ toString minutes
+fillColor : Bool -> String
+fillColor isOn =
+    if isOn then
+        "#ccc"
     else
-        toString minutes
+        "#888"
+
+
+viewTime : Model -> Html msg
+viewTime model =
+    div
+        []
+        [ span [] [ hours model |> toZeroPaddedString |> text ]
+        , span [] [ text " : " ]
+        , span [] [ minutes model |> toZeroPaddedString |> text ]
+        , span [] [ text " : " ]
+        , span [] [ seconds model |> toZeroPaddedString |> text ]
+        ]
+
+
+toZeroPaddedString : Int -> String
+toZeroPaddedString num =
+    if num < 10 then
+        "0" ++ toString num
+    else
+        toString num
+
+
+viewDebug : Model -> Html msg
+viewDebug model =
+    div
+        []
+        [ pre
+            []
+            [ model |> toString |> text ]
+        ]
 
 
 
@@ -268,9 +262,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Tick newTime ->
-            ( { model | time = newTime }
-            , Cmd.none
-            )
+            ( { model | time = newTime }, Cmd.none )
 
         Increment newTime ->
             ( { model
