@@ -6,16 +6,6 @@ import Svg.Attributes exposing (..)
 import Time exposing (Time, second)
 
 
-clockHeight : Int
-clockHeight =
-    180
-
-
-clockWidth : Int
-clockWidth =
-    570
-
-
 squareWidth : Int
 squareWidth =
     40
@@ -29,7 +19,17 @@ hours model =
                 |> Time.inHours
                 |> truncate
     in
-    rem totalHours 24
+        rem totalHours 24
+
+
+hoursTens : Model -> Int
+hoursTens model =
+    hours model // 10
+
+
+hoursOnes : Model -> Int
+hoursOnes model =
+    rem (hours model) 10
 
 
 minutes : Model -> Int
@@ -40,7 +40,7 @@ minutes model =
                 |> Time.inMinutes
                 |> truncate
     in
-    rem totalMinutes 60
+        rem totalMinutes 60
 
 
 seconds : Model -> Int
@@ -51,7 +51,7 @@ seconds model =
                 |> Time.inSeconds
                 |> truncate
     in
-    rem totalSeconds 60
+        rem totalSeconds 60
 
 
 
@@ -101,6 +101,23 @@ view model =
         ]
 
 
+repeatTimes : a -> Int -> List a
+repeatTimes value num =
+    List.repeat num value
+
+
+listFor : Int -> Int -> List Bool
+listFor length num =
+    let
+        on =
+            List.repeat num True
+
+        off =
+            List.repeat (length - num) False
+    in
+        on ++ off
+
+
 hoursTensColumn : Model -> List Square
 hoursTensColumn model =
     let
@@ -109,11 +126,12 @@ hoursTensColumn model =
 
         rows =
             [ 20, 70, 120 ]
-
-        active =
-            [ False, True, False ]
     in
-    List.map tupleToSquare <| zip cols rows active
+        model
+            |> hoursTens
+            |> listFor 3
+            |> zip cols rows
+            |> List.map tupleToSquare
 
 
 hoursOnesColumn : Model -> List Square
@@ -124,11 +142,12 @@ hoursOnesColumn model =
 
         rows =
             [ 20, 70, 120, 20, 70, 120, 20, 70, 120 ]
-
-        active =
-            [ False, True, True, False, True, False, False, True, False ]
     in
-    List.map tupleToSquare <| zip cols rows active
+        model
+            |> hoursOnes
+            |> listFor 9
+            |> zip cols rows
+            |> List.map tupleToSquare
 
 
 minutesTensColumn : Model -> List Square
@@ -143,7 +162,7 @@ minutesTensColumn model =
         active =
             [ False, False, False, True, False, False ]
     in
-    List.map tupleToSquare <| zip cols rows active
+        List.map tupleToSquare <| zip cols rows active
 
 
 minutesOnesColumn : Model -> List Square
@@ -158,7 +177,7 @@ minutesOnesColumn model =
         active =
             [ False, True, False, True, False, True, False, True, False ]
     in
-    List.map tupleToSquare <| zip cols rows active
+        List.map tupleToSquare <| zip cols rows active
 
 
 zip : List Int -> List Int -> List Bool -> List ( Int, Int, Bool )
@@ -188,27 +207,38 @@ elements model =
 
 viewClock : List Square -> Svg msg
 viewClock squares =
-    svg
-        [ version "1.1"
-        , baseProfile "full"
-        , width (toString clockWidth)
-        , height (toString clockHeight)
-        ]
-        (rect [ width "100%", height "100%", fill "#444" ] []
-            :: List.map viewSquare squares
-        )
+    let
+        clockHeight =
+            180
+
+        clockWidth =
+            570
+    in
+        svg
+            [ version "1.1"
+            , baseProfile "full"
+            , width (toString clockWidth)
+            , height (toString clockHeight)
+            ]
+            (rect [ width "100%", height "100%", fill "#444" ] []
+                :: List.map viewSquare squares
+            )
 
 
 viewSquare : Square -> Svg msg
 viewSquare square =
-    rect
-        [ x (toString square.x)
-        , y (toString square.y)
-        , width (toString squareWidth)
-        , height (toString squareWidth)
-        , fill <| fillColor <| square.active
-        ]
-        []
+    let
+        squareWidth =
+            40
+    in
+        rect
+            [ x (toString square.x)
+            , y (toString square.y)
+            , width (toString squareWidth)
+            , height (toString squareWidth)
+            , fill <| fillColor <| square.active
+            ]
+            []
 
 
 fillColor : Bool -> String
@@ -288,10 +318,10 @@ subscriptions model =
         doIncrement =
             rem secondsPast 6 == 0
     in
-    if doIncrement then
-        Time.every second Increment
-    else
-        Time.every second Tick
+        if doIncrement then
+            Time.every second Increment
+        else
+            Time.every second Tick
 
 
 main : Program Never Model Msg
