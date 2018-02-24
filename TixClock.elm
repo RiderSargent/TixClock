@@ -43,6 +43,16 @@ minutes model =
         rem totalMinutes 60
 
 
+minutesTens : Model -> Int
+minutesTens model =
+    minutes model // 10
+
+
+minutesOnes : Model -> Int
+minutesOnes model =
+    rem (minutes model) 10
+
+
 seconds : Model -> Int
 seconds model =
     let
@@ -158,11 +168,12 @@ minutesTensColumn model =
 
         rows =
             [ 20, 70, 120, 20, 70, 120 ]
-
-        active =
-            [ False, False, False, True, False, False ]
     in
-        List.map tupleToSquare <| zip cols rows active
+        model
+            |> minutesTens
+            |> listFor 6
+            |> zip cols rows
+            |> List.map tupleToSquare
 
 
 minutesOnesColumn : Model -> List Square
@@ -173,11 +184,12 @@ minutesOnesColumn model =
 
         rows =
             [ 20, 70, 120, 20, 70, 120, 20, 70, 120 ]
-
-        active =
-            [ False, True, False, True, False, True, False, True, False ]
     in
-        List.map tupleToSquare <| zip cols rows active
+        model
+            |> minutesOnes
+            |> listFor 9
+            |> zip cols rows
+            |> List.map tupleToSquare
 
 
 zip : List Int -> List Int -> List Bool -> List ( Int, Int, Bool )
@@ -275,7 +287,38 @@ viewDebug model =
         []
         [ pre
             []
-            [ model |> toString |> text ]
+            [ model
+                |> toString
+                |> text
+            ]
+        , pre
+            []
+            [ model
+                |> hoursTens
+                |> toString
+                |> text
+            ]
+        , pre
+            []
+            [ model
+                |> hoursOnes
+                |> toString
+                |> text
+            ]
+        , pre
+            []
+            [ model
+                |> minutesTens
+                |> toString
+                |> text
+            ]
+        , pre
+            []
+            [ model
+                |> minutesOnes
+                |> toString
+                |> text
+            ]
         ]
 
 
