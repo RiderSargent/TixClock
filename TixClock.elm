@@ -6,11 +6,6 @@ import Svg.Attributes exposing (..)
 import Time exposing (Time, second)
 
 
-squareWidth : Int
-squareWidth =
-    40
-
-
 hours : Model -> Int
 hours model =
     let
@@ -105,15 +100,12 @@ view : Model -> Html msg
 view model =
     div
         []
-        [ viewClock <| elements <| model
+        [ model
+            |> squares
+            |> viewClock
         , viewTime model
         , viewDebug model
         ]
-
-
-repeatTimes : a -> Int -> List a
-repeatTimes value num =
-    List.repeat num value
 
 
 listFor : Int -> Int -> List Bool
@@ -128,8 +120,8 @@ listFor length num =
         on ++ off
 
 
-hoursTensColumn : Model -> List Square
-hoursTensColumn model =
+hoursTensSquares : Model -> List Square
+hoursTensSquares model =
     let
         cols =
             [ 20, 20, 20 ]
@@ -144,8 +136,8 @@ hoursTensColumn model =
             |> List.map tupleToSquare
 
 
-hoursOnesColumn : Model -> List Square
-hoursOnesColumn model =
+hoursOnesSquares : Model -> List Square
+hoursOnesSquares model =
     let
         cols =
             [ 100, 100, 100, 150, 150, 150, 200, 200, 200 ]
@@ -160,8 +152,8 @@ hoursOnesColumn model =
             |> List.map tupleToSquare
 
 
-minutesTensColumn : Model -> List Square
-minutesTensColumn model =
+minutesTensSquares : Model -> List Square
+minutesTensSquares model =
     let
         cols =
             [ 280, 280, 280, 330, 330, 330 ]
@@ -176,8 +168,8 @@ minutesTensColumn model =
             |> List.map tupleToSquare
 
 
-minutesOnesColumn : Model -> List Square
-minutesOnesColumn model =
+minutesOnesSquares : Model -> List Square
+minutesOnesSquares model =
     let
         cols =
             [ 410, 410, 410, 460, 460, 460, 510, 510, 510 ]
@@ -207,13 +199,13 @@ tupleToSquare ( col, row, active ) =
     Square col row active
 
 
-elements : Model -> List Square
-elements model =
+squares : Model -> List Square
+squares model =
     List.concat
-        [ hoursTensColumn model
-        , hoursOnesColumn model
-        , minutesTensColumn model
-        , minutesOnesColumn model
+        [ hoursTensSquares model
+        , hoursOnesSquares model
+        , minutesTensSquares model
+        , minutesOnesSquares model
         ]
 
 
@@ -248,7 +240,9 @@ viewSquare square =
             , y (toString square.y)
             , width (toString squareWidth)
             , height (toString squareWidth)
-            , fill <| fillColor <| square.active
+            , square.active
+                |> fillColor
+                |> fill
             ]
             []
 
