@@ -4,6 +4,8 @@ import Html exposing (Html, div, pre, span)
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
 import Time exposing (Time, second)
+import Random exposing (Seed, generate)
+import Random.List exposing (shuffle)
 
 
 hours : Model -> Int
