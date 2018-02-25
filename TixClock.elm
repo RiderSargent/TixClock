@@ -8,53 +8,53 @@ import Random exposing (Seed, generate)
 import Random.List exposing (shuffle)
 
 
-hours : Model -> Int
-hours model =
+hours : Time -> Int
+hours time =
     let
         totalHours =
-            model.time
+            time
                 |> Time.inHours
                 |> truncate
     in
         rem totalHours 24
 
 
-hoursTens : Model -> Int
-hoursTens model =
-    hours model // 10
+hoursTens : Time -> Int
+hoursTens time =
+    hours time // 10
 
 
-hoursOnes : Model -> Int
-hoursOnes model =
-    rem (hours model) 10
+hoursOnes : Time -> Int
+hoursOnes time =
+    rem (hours time) 10
 
 
-minutes : Model -> Int
-minutes model =
+minutes : Time -> Int
+minutes time =
     let
         totalMinutes =
-            model.time
+            time
                 |> Time.inMinutes
                 |> truncate
     in
         rem totalMinutes 60
 
 
-minutesTens : Model -> Int
-minutesTens model =
-    minutes model // 10
+minutesTens : Time -> Int
+minutesTens time =
+    minutes time // 10
 
 
-minutesOnes : Model -> Int
-minutesOnes model =
-    rem (minutes model) 10
+minutesOnes : Time -> Int
+minutesOnes time =
+    rem (minutes time) 10
 
 
-seconds : Model -> Int
-seconds model =
+seconds : Time -> Int
+seconds time =
     let
         totalSeconds =
-            model.time
+            time
                 |> Time.inSeconds
                 |> truncate
     in
