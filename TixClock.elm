@@ -108,7 +108,6 @@ view model =
 viewClock : Model -> Svg msg
 viewClock model =
     let
-        -- RWS TODO: shuffle these
         squareList =
             List.concat
                 [ viewHoursTensSquares model.hoursTensList
@@ -271,14 +270,11 @@ viewDebug model =
 
 type Msg
     = Tick Time
-    | ShuffleSquares Time
-
-
-
-{-
-   | ShuffleIt
-   | ListShuffled (List Int)
--}
+    | ShuffleLists Time
+    | ShuffleMinutesOnes (List Bool)
+    | ShuffleMinutesTens (List Bool)
+    | ShuffleHoursOnes (List Bool)
+    | ShuffleHoursTens (List Bool)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -287,26 +283,30 @@ update msg model =
         Tick newTime ->
             ( { model | time = newTime }, Cmd.none )
 
-        ShuffleSquares newTime ->
-            ( { model
-                | time = newTime
-                , hoursTensList = model.time |> hoursTens |> asListOf 3
-                , hoursOnesList = model.time |> hoursOnes |> asListOf 9
-                , minutesTensList = model.time |> minutesTens |> asListOf 6
-                , minutesOnesList = model.time |> minutesOnes |> asListOf 9
-              }
-            , Cmd.none
+        ShuffleLists newTime ->
+            ( { model | time = newTime }
+            , Cmd.batch
+                [ generate ShuffleMinutesOnes (shuffle (model.time |> minutesOnes |> asListOf 9))
+                , generate ShuffleMinutesTens (shuffle (model.time |> minutesTens |> asListOf 6))
+                , generate ShuffleHoursOnes (shuffle (model.time |> hoursOnes |> asListOf 9))
+                , generate ShuffleHoursTens (shuffle (model.time |> hoursTens |> asListOf 3))
+                ]
             )
 
+        ShuffleMinutesOnes newList ->
+            ( { model | minutesOnesList = newList }, Cmd.none )
+
+        ShuffleMinutesTens newList ->
+            ( { model | minutesTensList = newList }, Cmd.none )
+
+        ShuffleHoursOnes newList ->
+            ( { model | hoursOnesList = newList }, Cmd.none )
+
+        ShuffleHoursTens newList ->
+            ( { model | hoursTensList = newList }, Cmd.none )
 
 
-{-
-   ShuffleIt ->
-       ( model, generate ListShuffled (shuffle listToShuffle) )
 
-   ListShuffled shuffledList ->
-       { model | list = shuffledList } ! []
--}
 -- SUBSCRIPTIONS
 
 
@@ -322,7 +322,7 @@ subscriptions model =
             rem secondsPast 6 == 0
     in
         if doIncrement then
-            Time.every second ShuffleSquares
+            Time.every second ShuffleLists
         else
             Time.every second Tick
 
