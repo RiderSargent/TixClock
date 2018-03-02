@@ -1,11 +1,11 @@
 module TixClock exposing (..)
 
 import Html exposing (Html, div, pre, span)
+import Random exposing (Seed, generate)
+import Random.List exposing (shuffle)
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
 import Time exposing (Time, second)
-import Random exposing (Seed, generate)
-import Random.List exposing (shuffle)
 
 
 hours : Time -> Int
@@ -16,17 +16,7 @@ hours time =
                 |> Time.inHours
                 |> truncate
     in
-        rem totalHours 24
-
-
-hoursTens : Time -> Int
-hoursTens time =
-    hours time // 10
-
-
-hoursOnes : Time -> Int
-hoursOnes time =
-    rem (hours time) 10
+    rem totalHours 24
 
 
 minutes : Time -> Int
@@ -37,17 +27,7 @@ minutes time =
                 |> Time.inMinutes
                 |> truncate
     in
-        rem totalMinutes 60
-
-
-minutesTens : Time -> Int
-minutesTens time =
-    minutes time // 10
-
-
-minutesOnes : Time -> Int
-minutesOnes time =
-    rem (minutes time) 10
+    rem totalMinutes 60
 
 
 seconds : Time -> Int
@@ -58,7 +38,27 @@ seconds time =
                 |> Time.inSeconds
                 |> truncate
     in
-        rem totalSeconds 60
+    rem totalSeconds 60
+
+
+extractHoursTens : Time -> Int
+extractHoursTens time =
+    hours time // 10
+
+
+extractHoursOnes : Time -> Int
+extractHoursOnes time =
+    rem (hours time) 10
+
+
+extractMinutesTens : Time -> Int
+extractMinutesTens time =
+    minutes time // 10
+
+
+extractMinutesOnes : Time -> Int
+extractMinutesOnes time =
+    rem (minutes time) 10
 
 
 
@@ -116,15 +116,15 @@ viewClock model =
                 , viewMinutesOnesSquares model.minutesOnesList
                 ]
     in
-        svg
-            [ version "1.1"
-            , baseProfile "full"
-            , width "570"
-            , height "180"
-            ]
-            (rect [ width "100%", height "100%", fill "#444" ] []
-                :: List.map viewSquare squareList
-            )
+    svg
+        [ version "1.1"
+        , baseProfile "full"
+        , width "570"
+        , height "180"
+        ]
+        (rect [ width "100%", height "100%", fill "#333" ] []
+            :: List.map viewSquare squareList
+        )
 
 
 viewSquare : Square -> Svg msg
@@ -141,6 +141,14 @@ viewSquare square =
         []
 
 
+fillColor : Bool -> String
+fillColor isOn =
+    if isOn then
+        "#aaa"
+    else
+        "#555"
+
+
 viewHoursTensSquares : List Bool -> List Square
 viewHoursTensSquares hoursTensList =
     let
@@ -150,9 +158,9 @@ viewHoursTensSquares hoursTensList =
         rows =
             [ 20, 70, 120 ]
     in
-        hoursTensList
-            |> zip cols rows
-            |> List.map tupleToSquare
+    hoursTensList
+        |> zip cols rows
+        |> List.map tupleToSquare
 
 
 viewHoursOnesSquares : List Bool -> List Square
@@ -164,9 +172,9 @@ viewHoursOnesSquares hoursOnesList =
         rows =
             [ 20, 70, 120, 20, 70, 120, 20, 70, 120 ]
     in
-        hoursOnesList
-            |> zip cols rows
-            |> List.map tupleToSquare
+    hoursOnesList
+        |> zip cols rows
+        |> List.map tupleToSquare
 
 
 viewMinutesTensSquares : List Bool -> List Square
@@ -178,9 +186,9 @@ viewMinutesTensSquares minutesTensList =
         rows =
             [ 20, 70, 120, 20, 70, 120, 20, 70, 120 ]
     in
-        minutesTensList
-            |> zip cols rows
-            |> List.map tupleToSquare
+    minutesTensList
+        |> zip cols rows
+        |> List.map tupleToSquare
 
 
 viewMinutesOnesSquares : List Bool -> List Square
@@ -192,21 +200,9 @@ viewMinutesOnesSquares minutesOnesList =
         rows =
             [ 20, 70, 120, 20, 70, 120, 20, 70, 120 ]
     in
-        minutesOnesList
-            |> zip cols rows
-            |> List.map tupleToSquare
-
-
-asListOf : Int -> Int -> List Bool
-asListOf length num =
-    let
-        on =
-            List.repeat num True
-
-        off =
-            List.repeat (length - num) False
-    in
-        on ++ off
+    minutesOnesList
+        |> zip cols rows
+        |> List.map tupleToSquare
 
 
 zip : List Int -> List Int -> List Bool -> List ( Int, Int, Bool )
@@ -222,14 +218,6 @@ zip cols rows active =
 tupleToSquare : ( Int, Int, Bool ) -> Square
 tupleToSquare ( col, row, active ) =
     Square col row active
-
-
-fillColor : Bool -> String
-fillColor isOn =
-    if isOn then
-        "#ccc"
-    else
-        "#888"
 
 
 viewTime : Model -> Html msg
@@ -257,10 +245,10 @@ viewDebug model =
     div
         []
         [ pre [] [ model |> toString |> text ]
-        , pre [] [ model.time |> hoursTens |> toString |> text ]
-        , pre [] [ model.time |> hoursOnes |> toString |> text ]
-        , pre [] [ model.time |> minutesTens |> toString |> text ]
-        , pre [] [ model.time |> minutesOnes |> toString |> text ]
+        , pre [] [ model.time |> extractHoursTens |> toString |> text ]
+        , pre [] [ model.time |> extractHoursOnes |> toString |> text ]
+        , pre [] [ model.time |> extractMinutesTens |> toString |> text ]
+        , pre [] [ model.time |> extractMinutesOnes |> toString |> text ]
         ]
 
 
@@ -286,10 +274,26 @@ update msg model =
         ShuffleLists newTime ->
             ( { model | time = newTime }
             , Cmd.batch
-                [ generate ShuffleMinutesOnes (shuffle (model.time |> minutesOnes |> asListOf 9))
-                , generate ShuffleMinutesTens (shuffle (model.time |> minutesTens |> asListOf 6))
-                , generate ShuffleHoursOnes (shuffle (model.time |> hoursOnes |> asListOf 9))
-                , generate ShuffleHoursTens (shuffle (model.time |> hoursTens |> asListOf 3))
+                [ model.time
+                    |> extractHoursTens
+                    |> asListOf 3
+                    |> shuffle
+                    |> generate ShuffleHoursTens
+                , model.time
+                    |> extractHoursOnes
+                    |> asListOf 9
+                    |> shuffle
+                    |> generate ShuffleHoursOnes
+                , model.time
+                    |> extractMinutesTens
+                    |> asListOf 6
+                    |> shuffle
+                    |> generate ShuffleMinutesTens
+                , model.time
+                    |> extractMinutesOnes
+                    |> asListOf 9
+                    |> shuffle
+                    |> generate ShuffleMinutesOnes
                 ]
             )
 
@@ -304,6 +308,18 @@ update msg model =
 
         ShuffleHoursTens newList ->
             ( { model | hoursTensList = newList }, Cmd.none )
+
+
+asListOf : Int -> Int -> List Bool
+asListOf length num =
+    let
+        on =
+            List.repeat num True
+
+        off =
+            List.repeat (length - num) False
+    in
+    on ++ off
 
 
 
@@ -321,10 +337,10 @@ subscriptions model =
         doIncrement =
             rem secondsPast 6 == 0
     in
-        if doIncrement then
-            Time.every second ShuffleLists
-        else
-            Time.every second Tick
+    if doIncrement then
+        Time.every second ShuffleLists
+    else
+        Time.every second Tick
 
 
 main : Program Never Model Msg
