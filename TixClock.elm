@@ -149,8 +149,15 @@ fillColor isOn =
         "#555"
 
 
+viewListsToSquares : List Int -> List Int -> List Bool -> List Square
+viewListsToSquares cols rows digitList =
+    digitList
+        |> zip cols rows
+        |> List.map tupleToSquare
+
+
 viewHoursTensSquares : List Bool -> List Square
-viewHoursTensSquares hoursTensList =
+viewHoursTensSquares =
     let
         cols =
             [ 20, 20, 20 ]
@@ -158,13 +165,11 @@ viewHoursTensSquares hoursTensList =
         rows =
             [ 20, 70, 120 ]
     in
-    hoursTensList
-        |> zip cols rows
-        |> List.map tupleToSquare
+    viewListsToSquares cols rows
 
 
 viewHoursOnesSquares : List Bool -> List Square
-viewHoursOnesSquares hoursOnesList =
+viewHoursOnesSquares =
     let
         cols =
             [ 100, 100, 100, 150, 150, 150, 200, 200, 200 ]
@@ -172,13 +177,11 @@ viewHoursOnesSquares hoursOnesList =
         rows =
             [ 20, 70, 120, 20, 70, 120, 20, 70, 120 ]
     in
-    hoursOnesList
-        |> zip cols rows
-        |> List.map tupleToSquare
+    viewListsToSquares cols rows
 
 
 viewMinutesTensSquares : List Bool -> List Square
-viewMinutesTensSquares minutesTensList =
+viewMinutesTensSquares =
     let
         cols =
             [ 280, 280, 280, 330, 330, 330 ]
@@ -186,13 +189,11 @@ viewMinutesTensSquares minutesTensList =
         rows =
             [ 20, 70, 120, 20, 70, 120, 20, 70, 120 ]
     in
-    minutesTensList
-        |> zip cols rows
-        |> List.map tupleToSquare
+    viewListsToSquares cols rows
 
 
 viewMinutesOnesSquares : List Bool -> List Square
-viewMinutesOnesSquares minutesOnesList =
+viewMinutesOnesSquares =
     let
         cols =
             [ 410, 410, 410, 460, 460, 460, 510, 510, 510 ]
@@ -200,9 +201,7 @@ viewMinutesOnesSquares minutesOnesList =
         rows =
             [ 20, 70, 120, 20, 70, 120, 20, 70, 120 ]
     in
-    minutesOnesList
-        |> zip cols rows
-        |> List.map tupleToSquare
+    viewListsToSquares cols rows
 
 
 zip : List Int -> List Int -> List Bool -> List ( Int, Int, Bool )
