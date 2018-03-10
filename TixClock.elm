@@ -1,6 +1,6 @@
 module TixClock exposing (..)
 
-import Html exposing (Html, div, pre, span)
+import Html exposing (Html, div, code, pre, span)
 import Random exposing (Seed, generate)
 import Random.List exposing (shuffle)
 import Svg exposing (..)
@@ -16,7 +16,7 @@ hours time =
                 |> Time.inHours
                 |> truncate
     in
-    rem totalHours 24
+        rem totalHours 24
 
 
 minutes : Time -> Int
@@ -27,7 +27,7 @@ minutes time =
                 |> Time.inMinutes
                 |> truncate
     in
-    rem totalMinutes 60
+        rem totalMinutes 60
 
 
 seconds : Time -> Int
@@ -38,7 +38,7 @@ seconds time =
                 |> Time.inSeconds
                 |> truncate
     in
-    rem totalSeconds 60
+        rem totalSeconds 60
 
 
 extractHoursTens : Time -> Int
@@ -116,15 +116,15 @@ viewClock model =
                 , viewMinutesOnesSquares model.minutesOnesList
                 ]
     in
-    svg
-        [ version "1.1"
-        , baseProfile "full"
-        , width "570"
-        , height "180"
-        ]
-        (rect [ width "100%", height "100%", fill "#333" ] []
-            :: List.map viewSquare squareList
-        )
+        svg
+            [ version "1.1"
+            , baseProfile "full"
+            , width "570"
+            , height "180"
+            ]
+            (rect [ width "100%", height "100%", fill "#333" ] []
+                :: List.map viewSquare squareList
+            )
 
 
 viewSquare : Square -> Svg msg
@@ -150,9 +150,9 @@ fillColor isOn =
 
 
 viewListsToSquares : List Int -> List Int -> List Bool -> List Square
-viewListsToSquares cols rows digitList =
+viewListsToSquares rows cols digitList =
     digitList
-        |> zip cols rows
+        |> zip rows cols
         |> List.map tupleToSquare
 
 
@@ -165,7 +165,7 @@ viewHoursTensSquares =
         rows =
             [ 20, 70, 120 ]
     in
-    viewListsToSquares cols rows
+        viewListsToSquares rows cols
 
 
 viewHoursOnesSquares : List Bool -> List Square
@@ -177,7 +177,7 @@ viewHoursOnesSquares =
         rows =
             [ 20, 70, 120, 20, 70, 120, 20, 70, 120 ]
     in
-    viewListsToSquares cols rows
+        viewListsToSquares rows cols
 
 
 viewMinutesTensSquares : List Bool -> List Square
@@ -189,7 +189,7 @@ viewMinutesTensSquares =
         rows =
             [ 20, 70, 120, 20, 70, 120, 20, 70, 120 ]
     in
-    viewListsToSquares cols rows
+        viewListsToSquares rows cols
 
 
 viewMinutesOnesSquares : List Bool -> List Square
@@ -201,14 +201,14 @@ viewMinutesOnesSquares =
         rows =
             [ 20, 70, 120, 20, 70, 120, 20, 70, 120 ]
     in
-    viewListsToSquares cols rows
+        viewListsToSquares rows cols
 
 
 zip : List Int -> List Int -> List Bool -> List ( Int, Int, Bool )
-zip cols rows active =
+zip rows cols active =
     case ( cols, rows, active ) of
         ( c :: cTail, r :: rTail, a :: aTail ) ->
-            ( c, r, a ) :: zip cTail rTail aTail
+            ( c, r, a ) :: zip rTail cTail aTail
 
         ( _, _, _ ) ->
             []
@@ -243,7 +243,7 @@ viewDebug : Model -> Html msg
 viewDebug model =
     div
         []
-        [ pre [] [ model |> toString |> text ]
+        [ code [] [ model |> toString |> text ]
         , pre [] [ model.time |> extractHoursTens |> toString |> text ]
         , pre [] [ model.time |> extractHoursOnes |> toString |> text ]
         , pre [] [ model.time |> extractMinutesTens |> toString |> text ]
@@ -318,7 +318,7 @@ asListOf length num =
         off =
             List.repeat (length - num) False
     in
-    on ++ off
+        on ++ off
 
 
 
@@ -336,10 +336,10 @@ subscriptions model =
         doIncrement =
             rem secondsPast 6 == 0
     in
-    if doIncrement then
-        Time.every second ShuffleLists
-    else
-        Time.every second Tick
+        if doIncrement then
+            Time.every second ShuffleLists
+        else
+            Time.every second Tick
 
 
 main : Program Never Model Msg
